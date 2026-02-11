@@ -1,0 +1,12 @@
+====================================================
+AE SUMMARY TABLE EXECUTING:  2026-02-11 18:27:03.480114 
+====================================================
+
+[INFO] Source domains loaded. ADSL: 306  ADAE: 1191 
+[INFO] Hierarchical TEAE dataset prepared. Total records:  1122 
+
+[INFO] Constructing hierarchical {gtsummary} table...
+[INFO] Table successfully exported to:  question_3_tlg/ae_summary_table.html 
+====================================================
+PIPELINE COMPLETED:  2026-02-11 18:27:09.808136 
+====================================================

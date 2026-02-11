@@ -1,0 +1,11 @@
+====================================================
+AE VISUALIZATIONS EXECUTING:  2026-02-11 18:27:20.2546 
+====================================================
+
+[INFO] Generating Plot 1: Severity Distribution...
+[INFO] Generating Plot 2: Top 10 AEs with 95% CIs...
+`height` was translated to `width`.
+[INFO] Plots successfully exported as PNGs.
+====================================================
+PIPELINE COMPLETED:  2026-02-11 18:27:21.353467 
+====================================================
