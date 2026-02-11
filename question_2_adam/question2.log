@@ -1,0 +1,28 @@
+====================================================
+ADSL PIPELINE EXECUTING:  2026-02-11 17:24:52.849034 
+====================================================
+
+--- Session Details ---
+R Version:  R version 4.5.2 (2025-10-31) 
+{admiral} Version:  1.3.1 
+{dplyr} Version:  1.1.4 
+-----------------------
+
+[INFO] Source domains loaded successfully.
+[INFO] Base DM records: 306 
+
+[INFO] Base demographics and ITTFL derived.
+[INFO] TRTSDTM and missing time imputation (TRTSTMF) processed.
+[INFO] LSTAVLDT evaluated across modern event() definitions.
+
+--- Quality Control Status ---
+[QC] Missing USUBJIDs:  0 
+[QC] Duplicate Subjects:  0 
+[QC] OVERALL STATUS: PASS
+------------------------------
+
+Final Output Subject Count:  306 
+Final Output Record Count:   306 
+====================================================
+PIPELINE COMPLETED:  2026-02-11 17:24:54.837201 
+====================================================
