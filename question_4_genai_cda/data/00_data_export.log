@@ -1,0 +1,12 @@
+====================================================
+ADAE EXPORT PIPELINE EXECUTING:  2026-02-11 19:09:55.862234 
+====================================================
+
+[INFO] Source dataset 'adae' loaded from pharmaverseadam.
+[INFO] Total records detected: 1191 
+[INFO] Unique subjects (USUBJID) detected: 225 
+
+[INFO] Dataset successfully exported to: question_4_genai_cda/data/adae.csv 
+====================================================
+EXPORT COMPLETED:  2026-02-11 19:09:55.896294 
+====================================================

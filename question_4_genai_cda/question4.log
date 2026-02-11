@@ -1,0 +1,28 @@
+====================================================
+GENAI ASSISTANT EXECUTING: 2026-02-11 19:11:20.997160
+====================================================
+
+--- Session Details ---
+Python Version: 3.12.11
+Pandas Version: 3.0.0
+-----------------------
+
+[INFO] Source dataset successfully loaded from: /cloud/project/question_4_genai_cda/data/adae.csv
+Test Query 1: Give me the subjects who had Adverse events of Moderate severity.
+-> Mapped: AESEV == MODERATE
+-> Result: Found 136 unique subjects.
+-> IDs:    ['01-701-1023', '01-701-1047', '01-701-1097', '01-701-1111', '01-701-1115']...
+
+Test Query 2: Which subjects experienced a Headache?
+-> Mapped: AETERM == HEADACHE
+-> Result: Found 16 unique subjects.
+-> IDs:    ['01-701-1302', '01-701-1383', '01-708-1019', '01-708-1087', '01-708-1272']...
+
+Test Query 3: Find subjects with Cardiac issues.
+-> Mapped: AESOC == CARDIAC DISORDERS
+-> Result: Found 44 unique subjects.
+-> IDs:    ['01-701-1023', '01-701-1047', '01-703-1299', '01-704-1008', '01-704-1017']...
+
+====================================================
+PIPELINE COMPLETED: 2026-02-11 19:11:21.023420
+====================================================
