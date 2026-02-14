@@ -1,6 +1,6 @@
 # Analytical Data Science Programmer Coding Assessment
 
-This repository contains my solutions for the Analytical Data Science Programmer coding assessment. The project demonstrates proficiency in the **Pharmaverse** ecosystem (R) and **Generative AI** integration (Python) for clinical trial data standards and reporting.
+This repository contains my solutions for the Analytical Data Science Programmer coding assessment. The project demonstrates uses the **Pharmaverse** ecosystem (R) and **Generative AI** integration (Python) for clinical trial data standards and reporting.
 
 ---
 
@@ -28,20 +28,121 @@ Focuses on generating regulatory-compliant clinical reports (Tables, Listings, a
 
 ### [Question 4: GenAI Clinical Data Assistant](./question_4_genai_cda/)
 A Python-based assistant that translates natural language questions into structured Pandas queries for the AE dataset.
-* **`question4_agent.py`**: A Python script featuring a `ClinicalTrialDataAgent` class that parses user intent (e.g., "severity" or "cardiac issues") and maps it to specific CDISC variables like AESEV or AESOC.
+* **`clinical_agent.py`**: The core solution containing the `ClinicalTrialDataAgent` class and LLM schema mapping logic.
+* **`test_script.py`**: The validation script that executes clinical queries and manages the dual-logging system.
 * **`question4.log`**: Log file showing the execution of test queries and unique subject matching.
+* **`requirements.txt`**: List of Python dependencies (LangChain, Google Generative AI, Pandas).
 
 ---
 
-## 🚀 Key Design Decisions
+## 🛠️ Environment Setup
 
-1.  **Traceability**: In the SDTM pipeline, Oak ID variables were generated to maintain record-level traceability from raw data (`ds_raw`) to the final domain.
-2.  **Modern ADaM Standards**: Used the modern `{admiral}` `event()` API for deriving `LSTAVLDT`, allowing for robust evaluation of dates across AE, DS, VS, and EX sources.
-3.  **Reproducibility**: Comprehensive logging was implemented across all scripts (both R and Python) to provide clear evidence of execution and session details.
-4.  **AI Integration**: The GenAI assistant was designed with a structured `Prompt -> Parse -> Execute` flow to dynamically map user intent to dataset variables without hard-coded rules.
+### R Environment (Questions 1, 2, & 3)
+To ensure reproducibility, this project uses the **{renv}** package to manage dependencies.
 
-## 🛠️ Environment Requirements
+1. **Open the Project:** Open `project.Rproj` in RStudio.  
+2. **Restore Packages:** Run the following command in the R console to install all required libraries (including **{admiral}**, **{sdtm.oak}**, and **{gtsummary}**):
 
-* **R Version**: 4.2.0 or above.
-* **Key R Packages**: `{admiral}`, `{sdtm.oak}`, `{gtsummary}`, `{gt}`, `{ggplot2}`, `{dplyr}`.
-* **Python Version**: 3.x with `pandas`.
+```r
+if (!require("renv")) install.packages("renv")
+renv::restore()
+```
+
+### Python Environment (Question 4)
+1. **Install Dependencies:** Ensure you have Python **3.9+** installed. From the `question_4_genai_cda/` directory, run:
+
+```bash
+pip install -r requirements.txt
+```
+
+2. **Configure API Key:** This solution uses **Google Gemini 2.5 Flash** for high-speed reasoning.
+
+- Obtain a free API key from [Google AI Studio](https://aistudio.google.com/app/apikey).
+- Create a file named `.env` in the Question 4 directory.
+- Add your key:
+
+```env
+GOOGLE_API_KEY=your_actual_key_here
+```
+
+---
+
+## 📂 Repository Structure & Execution
+
+### Question 1: SDTM DS Domain Creation
+Creation of an SDTM Disposition (DS) domain from raw data using **{sdtm.oak}**.
+
+- **Key Script:** `01_create_ds_domain.R`
+- **Requirements:** Requires `sdtm_ct.csv` in the folder for controlled terminology mapping.
+- **How to Run:**
+
+```r
+source("question_1_sdtm/01_create_ds_domain.R")
+```
+
+---
+
+### Question 2: ADaM ADSL Dataset Creation
+Development of the Subject Level Analysis (ADSL) dataset using **{admiral}**.
+
+- **Key Script:** `create_adsl.R`
+- **Derivations:** Includes ITT flags, age groupings, treatment start (TRTSDTM), and Last Known Alive Date (LSTAVLDT).
+- **How to Run:**
+
+```r
+source("question_2_adam/create_adsl.R")
+```
+
+---
+
+### Question 3: TLG - Adverse Events Reporting
+Generating regulatory-compliant clinical Tables, Listings, and Graphs.
+
+- **Table:** `01_create_ae_summary_table.R` (Hierarchical TEAE summary)
+- **Figures:** `02_create_visualizations.R` (Severity distribution and Top 10 AE CI plot)
+- **How to Run:**
+
+```r
+source("question_3_tlg/01_create_ae_summary_table.R")
+source("question_3_tlg/02_create_visualizations.R")
+```
+
+---
+
+### Question 4: GenAI Clinical Data Assistant
+A Python-based assistant that translates natural language questions into structured **Pandas** queries for the AE dataset.
+
+#### Key Components 
+- **`clinical_agent.py`**: Core solution containing the `ClinicalTrialDataAgent` class and LLM schema mapping logic.  
+- **`test_script.py`**: Validation script that executes clinical queries and manages the dual-logging system.  
+- **`question4.log`**: Log file showing the execution of test queries and unique subject matching.  
+- **`requirements.txt`**: List of Python dependencies (**LangChain**, **Google Generative AI**, **Pandas**).  
+
+#### Getting Started (Question 4: LLM Assistant)
+
+1. **Install Dependencies**
+```bash
+pip install -r requirements.txt
+```
+
+2. **Configure API Key**
+- Obtain a free API key from [Google AI Studio](https://aistudio.google.com/app/apikey).
+- Create `.env` in the Question 4 directory and add:
+```env
+GOOGLE_API_KEY=your_actual_key_here
+```
+
+3. **Running the Tests**
+To execute the clinical queries and generate the log file, run:
+```bash
+python test_script.py
+```
+
+#### How to Run the Assistant
+- **Key Script:** `question4_agent.py`
+- **Configuration:** Requires a `.env` file with your `GOOGLE_API_KEY`.
+- **Run:**
+
+```bash
+python question_4_genai_cda/question4_agent.py
+```
