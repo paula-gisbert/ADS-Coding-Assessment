@@ -28,8 +28,8 @@ Focuses on generating regulatory-compliant clinical reports (Tables, Listings, a
 
 ### [Question 4: GenAI Clinical Data Assistant](./question_4_genai_cda/)
 A Python-based assistant that translates natural language questions into structured Pandas queries for the AE dataset.
-* **`clinical_agent.py`**: The core solution containing the `ClinicalTrialDataAgent` class and LLM schema mapping logic.
-* **`test_script.py`**: The validation script that executes clinical queries and manages the dual-logging system.
+* **`question4_agent.py`**: The core solution containing the `ClinicalTrialDataAgent` class and LLM schema mapping logic.
+* **`question4_test.py`**: The validation script that executes clinical queries and manages the dual-logging system.
 * **`question4.log`**: Log file showing the execution of test queries and unique subject matching.
 * **`requirements.txt`**: List of Python dependencies (LangChain, Google Generative AI, Pandas).
 
@@ -67,7 +67,7 @@ GOOGLE_API_KEY=your_actual_key_here
 
 ---
 
-## 📂 Repository Structure & Execution
+## 📂 Repository Execution
 
 ### Question 1: SDTM DS Domain Creation
 Creation of an SDTM Disposition (DS) domain from raw data using **{sdtm.oak}**.
@@ -113,8 +113,8 @@ source("question_3_tlg/02_create_visualizations.R")
 A Python-based assistant that translates natural language questions into structured **Pandas** queries for the AE dataset.
 
 #### Key Components 
-- **`clinical_agent.py`**: Core solution containing the `ClinicalTrialDataAgent` class and LLM schema mapping logic.  
-- **`test_script.py`**: Validation script that executes clinical queries and manages the dual-logging system.  
+- **`question4_agent.py`**: Core solution containing the `ClinicalTrialDataAgent` class and LLM schema mapping logic.  
+- **`question4_test.py`**: Validation script that executes clinical queries and manages the dual-logging system.  
 - **`question4.log`**: Log file showing the execution of test queries and unique subject matching.  
 - **`requirements.txt`**: List of Python dependencies (**LangChain**, **Google Generative AI**, **Pandas**).  
 
@@ -135,14 +135,6 @@ GOOGLE_API_KEY=your_actual_key_here
 3. **Running the Tests**
 To execute the clinical queries and generate the log file, run:
 ```bash
-python test_script.py
+python3 question4_test.py
 ```
 
-#### How to Run the Assistant
-- **Key Script:** `question4_agent.py`
-- **Configuration:** Requires a `.env` file with your `GOOGLE_API_KEY`.
-- **Run:**
-
-```bash
-python question_4_genai_cda/question4_agent.py
-```
