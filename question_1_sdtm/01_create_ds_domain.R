@@ -11,9 +11,11 @@
 #   - Mapping verbatim terms to standardized CDISC Controlled Terminology 
 #     (Codelist C66727).
 #   - Applying study-specific business rules for categorization (DSCAT), 
-#     handling "Other, Specify" overrides, and hardcoding visit numbering.
-#   - Deriving standard datetime variables (DSDTC, DSSTDTC) and subject 
-#     sequence numbers (DSSEQ).
+#     handling "Other, Specify" overrides, and dynamically mapping visit 
+#     numbering from reference metadata.
+#   - Deriving standard datetime variables (DSDTC, DSSTDTC), subject 
+#     sequence numbers (DSSEQ), and study day (DSSTDY) relative to 
+#     randomization.
 #   - Outputting a fully formatted DS domain dataset alongside a comprehensive 
 #     execution log.
 # ==========================================================================
