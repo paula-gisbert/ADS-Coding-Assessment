@@ -90,21 +90,25 @@ decod_obj <- assign_ct(
 
 dtc_obj <- assign_datetime(
   raw_dat = input_records, tgt_var = "DSDTC", 
-  raw_var = c("COL_DATE", "COL_TIME"), raw_fmt = c("d-m-y", "H:M"), 
+  raw_var = c("COL_DATE", "COL_TIME"), raw_fmt = c("m-d-y", "H:M"), 
   id_vars = core_ids
 )
 
 stdtc_obj <- assign_datetime(
   raw_dat = input_records, tgt_var = "DSSTDTC", 
-  raw_var = "START_DATE", raw_fmt = "d-m-y", 
+  raw_var = "START_DATE", raw_fmt = "m-d-y", 
   id_vars = core_ids
 )
-
 # --- Phase 6: Domain Assembly & Study Logic ---
 
-# Define a reference vector for visit numbering (cleaner than case_when)
-visit_lookup <- c("BASELINE" = 10, "WEEK 4" = 40, "WEEK 26" = 260)
+# 1. Create the Visit Number lookup from sdtm_ct.csv
+visit_num_lookup <- ref_ct %>%
+  filter(codelist_code == "VISITNUM") %>%
+  select(collected_value, term_value) %>%
+  mutate(collected_value = toupper(collected_value)) %>%
+  tibble::deframe()
 
+# 2. Assemble the domain first
 dispo_domain <- input_records %>%
   left_join(term_obj,  by = core_ids) %>%
   left_join(decod_obj, by = core_ids) %>%
@@ -114,7 +118,7 @@ dispo_domain <- input_records %>%
     # Handle "Other, Specify" overrides
     has_other = !is.na(OTHERSP) & OTHERSP != "",
     DSTERM    = if_else(has_other, OTHERSP, DSTERM),
-    DSDECOD   = if_else(has_other, OTHERSP, DSDECOD),
+    DSDECOD   = toupper(if_else(has_other, OTHERSP, DSDECOD)),
     
     # Define DS Category
     DSCAT = case_when(
@@ -127,24 +131,43 @@ dispo_domain <- input_records %>%
     STUDYID  = STUDY,
     DOMAIN   = "DS",
     USUBJID  = paste0(STUDY, "-", PATNUM),
-    VISIT    = INSTANCE,
-    
-    # Map visit numbers using the lookup vector defined above
-    VISITNUM = unname(visit_lookup[toupper(VISIT)]),
-    DSSTDY   = NA_integer_
-  ) %>%
-  filter(!is.na(DSTERM) & DSTERM != "")
+    VISIT    = toupper(INSTANCE),
+    VISITNUM = as.numeric(visit_num_lookup[VISIT])
+  )
 
-cat("[INFO] Domain assembly complete. Empty events removed.\n\n")
+# 3. Derive RFSTDTC from the assembled Randomized records
+# This ensures that "Randomized" is the anchor for Day 1
+ref_dates <- dispo_domain %>%
+  filter(DSDECOD == "RANDOMIZED") %>%
+  select(USUBJID, RFSTDTC = DSSTDTC) %>%
+  distinct()
 
-# --- Phase 7: Sequencing ---
+# Join the reference date back to all records for the subject
+dispo_domain <- dispo_domain %>%
+  left_join(ref_dates, by = "USUBJID")
+
+
+
+# --- Phase 7: Sequencing & Calculation ---
+
 final_ds <- dispo_domain %>%
+  # Generate sequence numbers
   derive_seq(tgt_var = "DSSEQ", rec_vars = "USUBJID") %>%
+  
+  derive_study_day(
+    sdtm_in = .,
+    dm_domain = ., # Use the current data as the reference source
+    tgdt = "DSSTDTC",
+    refdt = "RFSTDTC",
+    study_day_var = "DSSTDY"
+  ) %>%
+  # Final selection of standard SDTM columns
   select(
     STUDYID, DOMAIN, USUBJID, DSSEQ,
     DSTERM, DSDECOD, DSCAT, VISITNUM, VISIT,
     DSDTC, DSSTDTC, DSSTDY
-  )
+  ) %>%
+  filter(!is.na(DSTERM) & DSTERM != "")
 
 # --- Phase 8: Quality Control Checks ---
 cat("--- Quality Control Status ---\n")

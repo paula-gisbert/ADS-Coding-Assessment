@@ -1,5 +1,5 @@
 ====================================================
-DS PIPELINE EXECUTING:  2026-02-11 15:53:42.347649 
+DS PIPELINE EXECUTING:  2026-02-15 14:58:39.296573 
 ====================================================
 
 --- Session Details ---
@@ -11,8 +11,6 @@ R Version:  R version 4.5.2 (2025-10-31)
 [INFO] Raw data loaded. Total records: 850 
 [INFO] Unique subjects detected: 306 
 
-[INFO] Domain assembly complete. Empty events removed.
-
 --- Quality Control Status ---
 [QC] Missing USUBJIDs:  0 
 [QC] Duplicate Sequence Keys:  0 
@@ -22,5 +20,5 @@ R Version:  R version 4.5.2 (2025-10-31)
 Final Output Subject Count:  306 
 Final Output Record Count:   850 
 ====================================================
-PIPELINE COMPLETED:  2026-02-11 15:53:43.03279 
+PIPELINE COMPLETED:  2026-02-15 14:58:39.937701 
 ====================================================
